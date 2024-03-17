@@ -1,5 +1,7 @@
+import os
 import requests
 import sys
+import secrets
 
 def get_weather(api_key, city):
     url = f'http://api.openweathermap.org/data/2.5/weather?q={city}&appid={api_key}&units=imperial'
@@ -13,9 +15,12 @@ def get_weather(api_key, city):
         print("Error fetching weather data")
 
 if __name__ == "__main__":
-    api_key = 'dc96ac8dca5485f83bbb65090bb1685f'
+    if not secrets.api_key:
+        print("Key not found")
+        sys.exit(1)
+
     if len(sys.argv) > 1:
         city = ' '.join(sys.argv[1:])
     else:
         city = input("Enter the city name: ")
-    get_weather(api_key, city)
+    get_weather(secrets.api_key, city)
